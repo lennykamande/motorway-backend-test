@@ -1,5 +1,8 @@
-export const logger = import.meta.env.DEV
-  ? {
+import pino from 'pino';
+
+export const baseLogger = pino(
+  import.meta.env.DEV
+    ? {
       transport: {
         target: 'pino-pretty',
         options: {
@@ -8,6 +11,16 @@ export const logger = import.meta.env.DEV
         },
       },
     }
-  : {
+    : {
       level: 'warn',
-    };
+    }
+);
+
+export const createLoggerWithContext = (
+  correlationId?: string,
+  parsedResponse?: unknown
+) =>
+  baseLogger.child({
+    correlationId,
+    ...(parsedResponse && { parsedResponse }),
+  });

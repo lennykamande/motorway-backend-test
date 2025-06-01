@@ -1,10 +1,10 @@
 import './env';
 import { app } from '@app/app';
-import { logger } from '@app/logger';
-import { dbTypes } from '@app/database/types/database-connections';
+import { baseLogger } from '@app/logger';
+import { dbTypes } from '@app/database/types/databaseConnections';
 
 const serverOptions = {
-  logger,
+  baseLogger,
   pluginTimeout: 50000,
   bodyLimit: 15485760,
 };

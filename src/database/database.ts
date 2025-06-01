@@ -4,10 +4,8 @@ import databaseConnection from 'typeorm-fastify-plugin';
 import { DataSource, EntityTarget, Repository, ObjectLiteral } from 'typeorm';
 
 import { VehicleValuation } from '@app/models/vehicle-valuation';
-import { dbTypes, DbConfig} from '@app/database/types/database-connections';
+import { dbTypes, DbConfig} from '@app/database/types/databaseConnections';
 
-
-// use typeorm create connection datasource 
 const connection = (type: dbTypes, database: string, synchronize: boolean): DataSource => new DataSource({
 	type: type,
 	database: database,

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { FastifyInstance, fastify } from 'fastify';
 import * as databaseConnection from '../database/database';
-import { dbTypes } from '../database/types/database-connections'
+import { dbTypes } from '../database/types/databaseConnections'
 
 describe('registerDb', () => {
   let app: FastifyInstance;

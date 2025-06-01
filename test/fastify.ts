@@ -1,12 +1,12 @@
 import { beforeAll, afterAll } from 'vitest'
 import { app } from '@app/app'
-import { logger } from '@app/logger'
-import { dbTypes } from '@app/database/types/database-connections'
+import { baseLogger } from '@app/logger'
+import { dbTypes } from '@app/database/types/databaseConnections'
 
 
 export const fastify = await app({
     opts: {
-      logger,
+      logger: baseLogger,
       pluginTimeout: 50000,
       bodyLimit: 15485760,
     },
@@ -18,10 +18,8 @@ export const fastify = await app({
   });
 
 beforeAll(async () => {
-  // called once before all tests run
   await fastify.ready()
 })
 afterAll(async () => {
-  // called once after all tests run
   await fastify.close()
 })

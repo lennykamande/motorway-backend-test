@@ -2,24 +2,16 @@ import 'reflect-metadata';
 
 import { fastify as Fastify, FastifyInstance, FastifyServerOptions } from 'fastify';
 
-import { valuationRoutes } from '@app/routes/valuation';
-import {registerDb, repositoryHandler } from '@app/database/database';
-import { DbConfig } from '@app/database/types/database-connections';
-import { VehicleValuation } from '@app/models/vehicle-valuation';
+import { valuationRoutes } from '@app/valuation/routes/valuationRouter';
+import {registerDb } from '@app/database/database';
+import { DbConfig } from '@app/database/types/databaseConnections';
+
+
 
 interface AppOptions {
   opts?: FastifyServerOptions;
   dbConfig: DbConfig;
 }
-
-/**
- * Creates a Fastify instance with the given options and registers the database connection.
- *
- * @param {AppOptions} options - The options for creating the Fastify instance.
- * @param {FastifyServerOptions} [options.opts] - Optional Fastify server options.
- * @param {DbConfig} options.dbConfig - The database configuration.
- * @returns {Promise<FastifyInstance>} - A promise that resolves to the Fastify instance.
- */
 
 export const app = async ({ opts, dbConfig }: AppOptions): Promise<FastifyInstance> => {
   const fastify = Fastify(opts);
@@ -30,8 +22,7 @@ export const app = async ({ opts, dbConfig }: AppOptions): Promise<FastifyInstan
     return { hello: 'world' };
   });
 
-  const vehicleRepo = repositoryHandler<VehicleValuation>(fastify, 'VehicleValuation');
-  valuationRoutes(fastify, vehicleRepo);
+  valuationRoutes(fastify);
 
   return fastify;
 };

@@ -127,34 +127,9 @@ Here is a place for you to put any notes regarding the changes you made and the 
 4. I used an In memory counters, failover flag and timmers if premimum fails by 0.5 and resets after a certain period.
 5. Added a provider column to persist and return PCS/SCS provider.
 6. Made sure that its easy for any developer to understand what is going on 
+7. I wasn't able to log finish the auditing service but i took an approach that would make it easy to persist the data on the logger with the specific route called and request object.
 
 # Improvements 
 1. I could complete the DI refactor where i inject the car valuation service into valuation 
 2. I would introduce a central memoryStore such as redis to keep track of failures where we have multiple clusters and in different zones and to an extend have each running node keep track something like consistent hashing and have atomic increments. 
 3. I would get rid of the different import patterns and stick to one.
-4. I would have the routes only handle routing and not the other logic by seperating concerns and making testing much easier example below
-```
-routes:
-    app.get('/valuations/:vrm', valuationDetailsRequest(valuationService, responseHandler, getCarDetails));
-
-controller:
-    type UseCase = (attributes: GetCarDetailsType) => Promise<void>;
-
-    export const valuationDetailsRequest =
-    (valuationService: ValuationService, responseHandler: ResponseHandler, useCase: UseCase) =>
-    (request: Request, response: Response): void => {
-        const correlationId = generateUUID(); for logging request and tracability on cloud observebility
-
-        const parameters: VehicleValuationRequest = {
-            mileage: get(request, 'params.mileage');
-        };
-
-        void useCase({
-        accountService: valuationService,
-        parameters,
-        responseHandler: responseHandler(response, correlationId),
-        });
-    };
-
-useCase:
-    implement the call to the services as well and check for 
